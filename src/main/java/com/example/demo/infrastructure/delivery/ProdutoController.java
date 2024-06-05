@@ -16,5 +16,5 @@ public interface ProdutoController {
 
   public ProjectResponse<Collection<ProdutoDto>> getAllProdutos();
 
-  public ProjectResponse<Boolean> atualizarProduto(ProdutoDto produtoDto, Long Id);
+  public ProjectResponse<Boolean> atualizarProduto(ProdutoDto produtoDto, Long id) throws ProjectException;
 }
