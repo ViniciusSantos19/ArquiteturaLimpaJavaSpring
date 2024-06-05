@@ -8,6 +8,7 @@ import com.example.demo.core.domain.produto.useCases.impls.ConsultarProdutosUseC
 import com.example.demo.core.domain.produto.useCases.impls.CreateProdutoUseCaseImpl;
 import com.example.demo.core.domain.produto.useCases.impls.DeleteProdutoUseCaseImpl;
 import com.example.demo.core.domain.produto.useCases.impls.UpdateProdutoUseCaseImpl;
+import com.example.demo.infrastructure.delivery.converters.ProdutoRestConverter;
 import com.example.demo.infrastructure.persistence.converters.ProdutoRepositoryConverter;
 import com.example.demo.infrastructure.persistence.impl.ProdutoRepositoryServiceImpl;
 import com.example.demo.infrastructure.persistence.repositories.ProdutoRepository;
@@ -24,6 +25,11 @@ public class ProdutoConfig {
   @Bean
   public ProdutoRepositoryConverter createProdutoRepositoryConverter() {
     return new ProdutoRepositoryConverter();
+  }
+
+  @Bean
+  public ProdutoRestConverter createProdutoRestConverter() {
+    return new ProdutoRestConverter();
   }
 
   @Bean
