@@ -42,7 +42,11 @@ public class ProdutoRepositoryServiceImpl implements ProdutoRepositoryService {
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(Long id) throws ProdutoNotFoundException {
+    var optionalProduto = produtoRepository.findById(id);
+    if (optionalProduto.isEmpty()) {
+      throw new ProdutoNotFoundException("Produto não encontrado");
+    }
     this.produtoRepository.deleteById(id);
   }
 
@@ -64,7 +68,7 @@ public class ProdutoRepositoryServiceImpl implements ProdutoRepositoryService {
   }
 
   @Override
-  public void update(Produto produto, Long id) {
+  public void update(Produto produto, Long id) throws ProdutoNotFoundException {
     var optionalProduto = produtoRepository.findById(id);
     if (optionalProduto.isEmpty()) {
       throw new ProdutoNotFoundException("Produto não encontrado");

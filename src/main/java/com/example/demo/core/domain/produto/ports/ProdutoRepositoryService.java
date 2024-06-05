@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.example.demo.core.domain.produto.Produto;
+import com.example.demo.core.domain.produto.exceptions.ProdutoNotFoundException;
 
 /**
  * ProdutoRepositoryService
@@ -13,7 +14,7 @@ public interface ProdutoRepositoryService {
 
   public Optional<Produto> findById(Long id);
 
-  public void delete(Long id);
+  public void delete(Long id) throws ProdutoNotFoundException;
 
   public void save(Produto produto);
 
@@ -25,6 +26,6 @@ public interface ProdutoRepositoryService {
 
   public Collection<Produto> findByCategoria(String categoria);
 
-  public void update(Produto produto, Long id);
+  public void update(Produto produto, Long id) throws ProdutoNotFoundException;
 
 }
