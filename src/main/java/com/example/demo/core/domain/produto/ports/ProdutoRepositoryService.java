@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.example.demo.core.domain.produto.Produto;
-import com.example.demo.core.domain.produto.exceptions.ProdutoNotFoundException;
 
 /**
  * ProdutoRepositoryService
@@ -25,5 +24,7 @@ public interface ProdutoRepositoryService {
   public Collection<Produto> findByPreco(BigDecimal preco);
 
   public Collection<Produto> findByCategoria(String categoria);
+
+  public void update(Produto produto, Long id);
 
 }
