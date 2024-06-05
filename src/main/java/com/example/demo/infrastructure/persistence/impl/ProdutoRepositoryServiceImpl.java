@@ -73,6 +73,12 @@ public class ProdutoRepositoryServiceImpl implements ProdutoRepositoryService {
     if (optionalProduto.isEmpty()) {
       throw new ProdutoNotFoundException("Produto não encontrado");
     }
-    this.produtoRepository.save(produtoRepositoryConverter.mapToTable(produto));
+    var produtoAtualizado = optionalProduto.get();
+    produtoAtualizado.setNome(produto.getNome());
+    produtoAtualizado.setDescricao(produto.getDescricao());
+    produtoAtualizado.setPreco(produto.getPreco());
+    produtoAtualizado.setQuantidadeEstoque(produto.getQuantidadeEstoque());
+    produtoAtualizado.setCategoria(produto.getCategoria());
+    this.produtoRepository.save(produtoAtualizado);
   }
 }
