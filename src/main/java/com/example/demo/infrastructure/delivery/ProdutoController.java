@@ -15,4 +15,6 @@ public interface ProdutoController {
   public ProjectResponse<Boolean> deletarProdto(Long id) throws ProjectException;
 
   public ProjectResponse<Collection<ProdutoDto>> getAllProdutos();
+
+  public ProjectResponse<Boolean> atualizarProduto(ProdutoDto produtoDto, Long Id);
 }
