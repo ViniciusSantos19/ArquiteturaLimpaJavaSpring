@@ -4,7 +4,14 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.core.domain.produto.exceptions.ProdutoAlredyExistsExceptoin;
@@ -35,8 +42,10 @@ public class ProdutoControllerImpl implements ProdutoController {
   private final DeleteProdutoUseCaseImpl deleteProdutoUseCaseImpl;
   private final ProdutoRestConverter produtoRestConverter;
 
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping
   @Override
-  public ProjectResponse<Boolean> criarProduto(ProdutoDto produtoDto) {
+  public ProjectResponse<Boolean> criarProduto(@RequestBody ProdutoDto produtoDto) {
     try {
       this.createProdutoUseCaseImpl.create(this.produtoRestConverter.mapToEntity(produtoDto));
     } catch (ProdutoAlredyExistsExceptoin e) {
@@ -54,6 +63,8 @@ public class ProdutoControllerImpl implements ProdutoController {
   }
 
   @Override
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping()
   public ProjectResponse<Collection<ProdutoDto>> getAllProdutos() {
     Collection<ProdutoDto> produtos = consultarProdutosUseCaseImpl.getAllProdutos().stream()
         .map(produtoRestConverter::mapRoRest).collect(Collectors.toList());
@@ -61,8 +72,10 @@ public class ProdutoControllerImpl implements ProdutoController {
         produtos);
   }
 
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @Override
-  public ProjectResponse<Boolean> deletarProdto(Long id) throws ProjectException {
+  public ProjectResponse<Boolean> deletarProdto(@PathVariable Long id) throws ProjectException {
     try {
       deleteProdutoUseCaseImpl.delete(id);
     } catch (ProdutoNotFoundException e) {
@@ -73,8 +86,11 @@ public class ProdutoControllerImpl implements ProdutoController {
         CommonConstants.OK, true);
   }
 
+  @PutMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
   @Override
-  public ProjectResponse<Boolean> atualizarProduto(ProdutoDto produtoDto, Long id) throws ProjectException {
+  public ProjectResponse<Boolean> atualizarProduto(@RequestBody ProdutoDto produtoDto, @PathVariable Long id)
+      throws ProjectException {
     try {
       updateProdutoUseCaseImpl.update(produtoRestConverter.mapToEntity(produtoDto), id);
     } catch (ProdutoNotFoundException e) {

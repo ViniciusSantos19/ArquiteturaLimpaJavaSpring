@@ -17,7 +17,7 @@ public class DeleteProdutoUseCaseImpl implements DeleteProdutoUseCase {
   @Override
   public void delete(Long id) throws ProdutoNotFoundException {
     if (produtoRepositoryService.findById(id).isEmpty()) {
-      throw new ProdutoNotFoundException();
+      throw new ProdutoNotFoundException("produto não  foi achado");
     }
     produtoRepositoryService.delete(id);
   }

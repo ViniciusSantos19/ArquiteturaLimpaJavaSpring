@@ -17,10 +17,10 @@ public class CreateProdutoUseCaseImpl implements CreateProdutoUseCase {
   @Override
   public void create(Produto produto) throws ProdutoAlredyExistsExceptoin {
     if (this.produtoRepositoryService.findById(produto.getId()).isEmpty()) {
-      throw new ProdutoAlredyExistsExceptoin();
+      throw new ProdutoAlredyExistsExceptoin("O produto já existe");
     }
 
-    this.produtoRepositoryService.save(produto);(produto);
+    this.produtoRepositoryService.save(produto);
   }
 
 }

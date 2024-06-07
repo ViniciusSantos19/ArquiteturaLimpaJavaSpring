@@ -1,0 +1,27 @@
+services:
+  db_arquitetura_limpa:
+    image: postgres
+    restart: always
+    env_file:
+      - .env_db
+    volumes:
+      - meu_postgres_data2:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  arquitetura_limpa:
+    build: .
+    env_file:
+      - .env
+    environment:
+      POSTGRES_URL: db_arquitetura_limpa 
+    command: "java -jar /app.jar"
+    volumes:
+      - .:/app:cached
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db_arquitetura_limpa
+
+volumes:
+  meu_postgres_data2:
