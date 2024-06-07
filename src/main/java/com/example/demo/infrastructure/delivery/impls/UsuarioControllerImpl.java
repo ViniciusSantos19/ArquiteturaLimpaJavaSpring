@@ -3,6 +3,8 @@ package com.example.demo.infrastructure.delivery.impls;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,10 +33,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UsuarioControllerImpl implements UsuarioController {
 
+  private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
+
   private final FindAllUsuariosUseCaseImpl findAllUsuariosUseCaseImpl;
-
   private final CriarUsuarioUseCaseImpl criarUsuarioUseCaseImpl;
-
   private final UsuarioRestConverter restConverter;
 
   @Override
@@ -56,12 +58,14 @@ public class UsuarioControllerImpl implements UsuarioController {
   @PostMapping
   @Override
   public ProjectResponse<Boolean> criarUsuario(@RequestBody UsuarioDto usuario) throws ProjectException {
+    logger.info("Received request to create product: {}", usuario);
     try {
       this.criarUsuarioUseCaseImpl.execute(this.restConverter.mapToEntity(usuario));
     } catch (UsuarioAlredyExistException e) {
-      e.printStackTrace();
+      logger.error("Error creating usuario: {}", e.getMessage());
       return new ProjectResponse<>(CommonConstants.FAILURE, String.valueOf(HttpStatus.CONFLICT), "User already exists");
     }
+    logger.info("Product created successfully: {}", usuario);
     return new ProjectResponse<>(CommonConstants.SUCCESS, String.valueOf(HttpStatus.OK), CommonConstants.OK);
   }
 

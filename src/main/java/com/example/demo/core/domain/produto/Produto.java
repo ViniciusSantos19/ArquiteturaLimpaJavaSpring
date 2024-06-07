@@ -7,6 +7,7 @@ import com.example.demo.core.domain.produto.enums.Categoria;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,9 +28,9 @@ public class Produto implements Serializable {
   private String nome;
   @NotBlank
   private String descricao;
-  @NotBlank
+  @NotNull
   private BigDecimal preco;
-  @NotBlank
+  @Min(0)
   private int quantidadeEstoque;
   @NotBlank
   private Categoria categoria;

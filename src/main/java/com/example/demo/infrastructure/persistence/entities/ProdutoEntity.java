@@ -35,23 +35,18 @@ public class ProdutoEntity implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @NotBlank
   @Column(nullable = false)
   private String nome;
-
   @NotBlank
   @Column(nullable = false)
   private String descricao;
-
   @NotNull
   @Column(nullable = false)
   private BigDecimal preco;
-
   @Min(0)
   @Column(nullable = false)
   private int quantidadeEstoque;
-
   @NotNull
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)

@@ -11,6 +11,9 @@ import com.example.demo.core.domain.produto.ports.ProdutoRepositoryService;
 import com.example.demo.infrastructure.persistence.converters.ProdutoRepositoryConverter;
 import com.example.demo.infrastructure.persistence.repositories.ProdutoRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lombok.AllArgsConstructor;
 
 /**
@@ -18,6 +21,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class ProdutoRepositoryServiceImpl implements ProdutoRepositoryService {
+  private final static Logger logger = LoggerFactory.getLogger(ProdutoRepositoryService.class);
 
   private final ProdutoRepository produtoRepository;
   private final ProdutoRepositoryConverter produtoRepositoryConverter;
@@ -52,7 +56,9 @@ public class ProdutoRepositoryServiceImpl implements ProdutoRepositoryService {
 
   @Override
   public void save(Produto produto) {
-    this.produtoRepository.save(produtoRepositoryConverter.mapToTable(produto));
+    var produtoEnitity = produtoRepositoryConverter.mapToTable(produto);
+    logger.info("Produot entity: {}", produtoEnitity);
+    this.produtoRepository.save(produtoEnitity);
   }
 
   @Override

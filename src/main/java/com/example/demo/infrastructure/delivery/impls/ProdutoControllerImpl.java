@@ -29,6 +29,9 @@ import com.example.demo.infrastructure.shared.exception.ProjectException;
 
 import lombok.RequiredArgsConstructor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * ProdutoControllerImpl
  */
@@ -36,6 +39,9 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class ProdutoControllerImpl implements ProdutoController {
+
+  private static final Logger logger = LoggerFactory.getLogger(ProdutoController.class);
+
   private final CreateProdutoUseCaseImpl createProdutoUseCaseImpl;
   private final ConsultarProdutosUseCaseImpl consultarProdutosUseCaseImpl;
   private final UpdateProdutoUseCaseImpl updateProdutoUseCaseImpl;
@@ -46,15 +52,19 @@ public class ProdutoControllerImpl implements ProdutoController {
   @PostMapping
   @Override
   public ProjectResponse<Boolean> criarProduto(@RequestBody ProdutoDto produtoDto) {
+    logger.info("Received request to create product: {}", produtoDto);
+
     try {
       this.createProdutoUseCaseImpl.create(this.produtoRestConverter.mapToEntity(produtoDto));
     } catch (ProdutoAlredyExistsExceptoin e) {
+      logger.error("Error creating product: {}", e.getMessage());
       return new ProjectResponse<>(
           CommonConstants.FAILURE,
           String.valueOf(HttpStatus.CONFLICT.value()),
           "Product already exists");
     }
 
+    logger.info("Product created successfully: {}", produtoDto);
     return new ProjectResponse<>(
         HttpStatus.CREATED.toString(),
         String.valueOf(HttpStatus.CREATED.value()),

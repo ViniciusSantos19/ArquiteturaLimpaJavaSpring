@@ -16,10 +16,9 @@ public class CreateProdutoUseCaseImpl implements CreateProdutoUseCase {
 
   @Override
   public void create(Produto produto) throws ProdutoAlredyExistsExceptoin {
-    if (this.produtoRepositoryService.findById(produto.getId()).isEmpty()) {
+    if (!this.produtoRepositoryService.findByNome(produto.getNome()).isEmpty()) {
       throw new ProdutoAlredyExistsExceptoin("O produto já existe");
     }
-
     this.produtoRepositoryService.save(produto);
   }
 
