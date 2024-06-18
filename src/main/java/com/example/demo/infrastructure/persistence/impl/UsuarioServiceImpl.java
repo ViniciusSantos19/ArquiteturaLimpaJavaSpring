@@ -22,12 +22,6 @@ public class UsuarioServiceImpl implements UserRepositoryService {
 
   @Override
   public void delete(Long id) throws UserNotFoundException {
-    var optionalUsuario = this.repository.findById(id);
-
-    if (optionalUsuario.isEmpty()) {
-      throw new UserNotFoundException();
-    }
-
     this.repository.deleteById(id);
   }
 
